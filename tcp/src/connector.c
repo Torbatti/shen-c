@@ -36,6 +36,7 @@ int main()
 
     send_buf = (char *)malloc(256 * sizeof(char));
     strcpy(send_buf, "Hello!");
+    
     send_status = send(sock_fd, send_buf, sizeof(send_buf), 0);
     if (send_status == -1)
     {
@@ -56,7 +57,7 @@ int main()
 
     free(send_buf);
     free(recv_buf);
-    
+
     close(sock_fd);
 
     return 0;
