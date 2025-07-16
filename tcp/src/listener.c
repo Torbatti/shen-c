@@ -14,6 +14,7 @@ int main()
     int bind_status;
     int listen_status;
     int accept_status, accept_fd;
+    char *send_buf, *recv_buf;
     int recv_status, recv_len;
     int send_status, send_len;
 
@@ -65,8 +66,8 @@ int main()
         }
         accept_fd = accept_status;
 
-        char recv_buf[256];
-        recv_status = recv(accept_fd, &recv_buf, sizeof(recv_buf), 0);
+        recv_buf = (char *)malloc(256 * sizeof(char));
+        recv_status = recv(accept_fd, recv_buf, sizeof(recv_buf), 0);
         if (recv_status == -1)
         {
             printf("recv failed!");
@@ -86,6 +87,9 @@ int main()
             // continue;
         }
         send_len = send_status;
+
+        free(send_buf);
+        free(recv_buf);
 
         close(accept_fd);
     }
