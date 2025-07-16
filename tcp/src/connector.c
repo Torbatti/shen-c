@@ -11,6 +11,7 @@ int main()
     int sock_status, sock_fd;
     struct sockaddr_in listener_address;
     int connect_status;
+    char *send_buf, *recv_buf;
     int recv_status, recv_len;
     int send_status, send_len;
 
@@ -33,7 +34,8 @@ int main()
         return -1;
     }
 
-    char send_buf[] = "Hello!";
+    send_buf = (char *)malloc(256 * sizeof(char));
+    strcpy(send_buf, "Hello!");
     send_status = send(sock_fd, send_buf, sizeof(send_buf), 0);
     if (send_status == -1)
     {
@@ -42,8 +44,8 @@ int main()
     }
     send_len = send_status;
 
-    char recv_buf[256];
-    recv_status = recv(sock_fd, &recv_buf, sizeof(recv_buf), 0);
+    recv_buf = (char *)malloc(256 * sizeof(char));
+    recv_status = recv(sock_fd, recv_buf, sizeof(recv_buf), 0);
     if (recv_status == -1)
     {
         printf("recv failed!");
@@ -52,6 +54,9 @@ int main()
     recv_len = recv_status;
     printf(recv_buf);
 
+    free(send_buf);
+    free(recv_buf);
+    
     close(sock_fd);
 
     return 0;
